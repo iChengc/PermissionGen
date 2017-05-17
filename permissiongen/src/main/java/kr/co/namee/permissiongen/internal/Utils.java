@@ -55,7 +55,7 @@ final public class Utils {
     return null;
   }
 
-  public static boolean isEqualRequestCodeFromAnntation(Method m, Class clazz, int requestCode){
+  public static boolean isEqualRequestCodeFromAnnotation(Method m, Class clazz, int requestCode){
     if(clazz.equals(PermissionFail.class)){
       return requestCode == m.getAnnotation(PermissionFail.class).requestCode();
     } else if(clazz.equals(PermissionSuccess.class)){
@@ -67,14 +67,19 @@ final public class Utils {
 
   public static <A extends Annotation> Method findMethodWithRequestCode(Class clazz,
       Class<A> annotation, int requestCode) {
+    if (clazz.equals(Activity.class) || clazz.equals(Fragment.class)) {
+      return null;
+    }
+
     for(Method method : clazz.getDeclaredMethods()){
       if(method.isAnnotationPresent(annotation)){
-        if(isEqualRequestCodeFromAnntation(method, annotation, requestCode)){
+        if(isEqualRequestCodeFromAnnotation(method, annotation, requestCode)){
           return method;
         }
       }
     }
-    return null;
+
+    return findMethodWithRequestCode(clazz.getSuperclass(), annotation, requestCode);
   }
 
   public static <A extends Annotation> Method findMethodPermissionSuccessWithRequestCode(Class clazz,

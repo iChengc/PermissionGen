@@ -32,8 +32,8 @@ dependencies {
   compile 'com.android.support:appcompat-v7:23.1.1'
 }
 
-def siteUrl = 'https://github.com/lovedise/PermissionGen'      // Homepage URL of the library
-def gitUrl = 'https://github.com/lovedise/PermissionGen.git'   // Git repository URL
+def siteUrl = 'https://github.com/iChengc/PermissionGen'      // Homepage URL of the library
+def gitUrl = 'https://github.com/iChengc/PermissionGen.git'   // Git repository URL
 
 group = "com.lovedise"
 
@@ -59,9 +59,9 @@ install {
         }
         developers {
           developer {
-            id 'lovedise'
-            name 'SeungHwan Kim'
-            email 'lovedise@gmail.com'
+            id 'chan67224587'
+            name 'chan cheng'
+            email 'xnhjcc@tutanota.com'
           }
         }
         scm {
@@ -106,9 +106,12 @@ artifacts {
 //properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 // https://github.com/bintray/gradle-bintray-plugin
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 bintray {
-  user = "lovedise"
-  key = "1066b170a3e0eba4853ba07e7f0836560e740d7f"
+  user = properties.getProperty("bintray.user")
+  key = properties.getProperty("bintray.apikey")
   publish = true
   configurations = ['archives']
   pkg {
